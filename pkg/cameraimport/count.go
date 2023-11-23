@@ -19,6 +19,10 @@ func (r *MediaRepo) CountMediaFiles(mediaPath string) error {
     if CompareExtensions(path, rasterFormats[:], true) {
       r.rasterFiles++;
     }
+    // count movies
+    if CompareExtensions(path, videoFormats[:], true) {
+      r.videoFiles++;
+    }
 
     return nil;
   });
@@ -32,4 +36,8 @@ func (r *MediaRepo) Rasters() int {
 
 func (r *MediaRepo) Raws() int {
   return r.rawFiles;
+}
+
+func (r *MediaRepo) Videos() int {
+  return r.videoFiles;
 }

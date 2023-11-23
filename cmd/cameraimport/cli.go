@@ -27,25 +27,25 @@ var (
     Run: func(cmd *cobra.Command, args []string) { 
       sourceDir, err := cmd.Flags().GetString("sourcedir");
       if err != nil {
-        log.Fatalf("Import Command: Fatal Error %s\n", t.FgRed.Sprintf("%s", err));
+        log.Fatalf("Import Command: Fatal Error %s\n", t.FgRed.Sprintf("%v", err));
       }
       destDir, err := cmd.Flags().GetString("destinationdir");
       if err != nil {
-        log.Fatalf("Import Command: Fatal Error %s\n", t.FgRed.Sprintf("%s", err));
+        log.Fatalf("Import Command: Fatal Error %s\n", t.FgRed.Sprintf("%v", err));
       }
 
       if ! cameraimport.StringNotZeroLen(sourceDir) {
-        log.Fatalf("Import Command: Sanity Check Error %s\n", t.FgRed.Sprintf("%s", err));
+        log.Fatalf("Import Command: Sanity Check Error %s\n", t.FgRed.Sprintf("%v", err));
       }
       if ! cameraimport.StringNotZeroLen(destDir) {
-        log.Fatalf("Import Command: Sanity Check Error %s\n", t.FgRed.Sprintf("%s", err));
+        log.Fatalf("Import Command: Sanity Check Error %s\n", t.FgRed.Sprintf("%v", err));
       }
 
       // walk directory and count files
       var mediaRepo cameraimport.MediaRepo;
       mediaRepo.CountMediaFiles(sourceDir);
       mediaRepo.ImportMediaFiles(sourceDir, destDir);
-      fmt.Printf("-> Transferred [%s] new media files - Source contains [%s] RAWs and [%s] Rasters.\n", t.FgGreen.Sprintf("%d", mediaRepo.TransferredFiles()), t.FgGreen.Sprintf("%d", mediaRepo.Raws()), t.FgGreen.Sprintf("%d", mediaRepo.Rasters()));
+      fmt.Printf("-> Transferred a total of [%s] new media files - [%s] RAWs [%s] Rasters [%s] Videos.\n", t.FgGreen.Sprintf("%d", mediaRepo.TransferredFiles()), t.FgGreen.Sprintf("%d", mediaRepo.Raws()), t.FgGreen.Sprintf("%d", mediaRepo.Rasters()), t.FgGreen.Sprintf("%d", mediaRepo.Videos()));
       os.Exit(0);
     },
   }
@@ -58,10 +58,10 @@ var (
     Run: func(cmd *cobra.Command, args []string) { 
       sourceDir, err := cmd.Flags().GetString("sourcedir");
       if err != nil {
-        log.Fatalf("Count Command: Fatal Error %s\n", err);
+        log.Fatalf("Count Command: Fatal Error %s\n", t.FgRed.Sprintf("%v", err));
       }
       if ! cameraimport.StringNotZeroLen(sourceDir) {
-        log.Fatalf("Count Command: Fatal Error %s\n", err);
+        log.Fatalf("Count Command: Fatal Error %s\n", t.FgRed.Sprintf("%v", err));
       }
 
       // walk directory and count files
@@ -69,7 +69,7 @@ var (
       mediaRepo.CountMediaFiles(sourceDir);
 
       // display
-      fmt.Printf("Media Repository Scan Completed: Found [%d] RAW Files and [%d] Raster Files.\n", mediaRepo.Raws(), mediaRepo.Rasters());
+      fmt.Printf("Media Repository Scan Completed: Found [%d] RAW Files, [%d] Raster Files and [%d] Video Files.\n", mediaRepo.Raws(), mediaRepo.Rasters(), mediaRepo.Videos());
       os.Exit(0);
     },
   }

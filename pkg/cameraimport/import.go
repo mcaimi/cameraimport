@@ -100,6 +100,10 @@ func (r *MediaRepo) ImportMediaFiles(sourcePath, destPath string) error {
       return err
     }
 
+    if err := copyLoop(fPath, destPath, "videos", videoFormats[:], &r.transferredFiles); err != nil {
+      return err
+    }
+
     return nil;
   });
 
